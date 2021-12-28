@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <div>
+        <h2>assignment 5</h2>
+        <p>
+            delimiter //<br>
+            create procedure addn(a int,b int)<br>
+            begin<br>
+            declare c int;<br>
+            set c=a+b;<br>
+            select concat('Addition is c:',c);<br>
+            end<br>
+            //<br>
+        </p>
+
+    </div>
+    <div>
+        <h2>assigment 6</h2>
+        <p>
+            delimiter //<br>
+            create procedure proc_copy()<br>
+            begin<br>
+            declare vfinished int default 0;<br>
+            declare r int;<br>
+            declare n char(10);<br>
+            declare c char(10);<br>
+            declare studcursor cursor for select * from student2;<br>
+            declare countinue handler NOT FOUND<br>
+            set vfinished=1;<br>
+            open studcursor;<br>
+            getdata:loop<br>
+            fetch studcursor into r,n,c;<br>
+            if vfinished=1 then leave getdata;<br>
+            end if;<br>
+            insert into student3 values(r,n,c);<br>
+            end loop getdata;<br>
+            close studcursor;<br>
+            end<br>
+            //<br>
+        </p>
+    </div>
+    <div>
+        <h2>
+            assignment 7
+        </h2>
+        <p>
+            step1: create table with name student and enter student name and marks in it <br>
+        step 2: create another table with name result and store roll no and marks of students in it with name<br>        </p>
+        <p>
+            delimiter //<br>
+            create procedure proc_grade(IN rno int,out grade varchar(25))<br>
+            begin<br>
+            declare m int;<br>
+            select marks into m from student where name = (select name from result where roll=rno);<br>
+            if m>=990 and m<=1500 then<br>
+                select 'distinction' into grade;<br>
+                update result set class='distinction' where roll=rno;<br>
+                elseif m>=900 and m<=989 then<br>
+                    select 'first class' into grade;<br>
+                    update result set class='first class' where roll=rno;<br>
+                    elseif m>=825 and m<=899 then<br>
+                        select 'higher second class' into grade;<br>
+                        update result set class='higher second class' where roll=rno;<br>
+                        else<br>
+                        select "--" into grade;<br>
+                        update result set class='--' where roll=rno;<br>
+                        end if;<br>
+                        end;<br>
+                        //<br>
+
+
+
+
+
+                        <br><br><br>
+                        create function func_grade(rno int)<br>
+                        returns varchar(20)<br>
+                        deterministic<br>
+                        begin<br>
+                        declare grade varchar(25);<br>
+                        call proc_grade(rno,grade);<br>
+                        return grade;<br>
+                        end;<br>
+                        // <br>
+        </p>
+    </div>
+    <div>
+        <h2>assignment 8</h2>
+        <p>
+            step1 : create a table stud with attributes as sid ,name ,bname etc<br>
+        </p>
+        <p>
+            create trigger tr_ins_stud<br>
+before insert<br>
+on stud<br>
+for each row<br>
+begin<br>
+insert into issued values(new.sid,new.bname);<br>
+end;<br>
+//<br>
+
+
+<br><br><br>
+
+create trigger tr_del_stud<br>
+before delete<br>
+on stud<br>
+for each row<br>
+begin<br>
+delete from issued where sid=old.sid;<br>
+end;<br>
+//<br>
+<br><br><br>
+
+create trigger tr_up_issued<br>
+after update<br>
+on stud<br>
+for each row<br>
+begin<br>
+update issued<br>
+set sid=new.sid where sid= old.sid;<br>
+end;<br>
+//<br>
+        </p>
+    </div>
+</body>
+
+</html>
