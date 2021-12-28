@@ -131,6 +131,19 @@ set sid=new.sid where sid= old.sid;<br>
 end;<br>
 //<br>
         </p>
+<h2>assignment 10</h2>
+        <p>
+            use assignment10;(Database name)
+            db.createCollection("Library");
+            db.library.insert({"bid":1,"name":"C++"});
+            db.library.insert({"bid":2,"name":"java"});
+            db.library.insert({"bid":3,"name":"python"});
+            db.library.find().pretty();
+            db.library.update({"name":"python"},{$set:{"name":"python3.7"}});
+            db.library.find();
+            db.library.remove({"bid":1});
+            
+            </p>
     </div>
 </body>
 
